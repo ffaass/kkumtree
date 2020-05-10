@@ -2,41 +2,83 @@
 #
 # Check https://circleci.com/docs/2.0/language-java/ for more details
 #
-version: 2
-jobs:
-  build:
+
+version: 2.1
+
+orbs:
+  aws-s3: circleci/aws-s3@1.0.13
+  aws-code-deploy: circleci/aws-code-deploy@0.0.12
+
+executors:
+  my-executor:
     docker:
-      # specify the version you desire here
       - image: circleci/openjdk:8-jdk
 
-      # Specify service dependencies here if necessary
-      # CircleCI maintains a library of pre-built images
-      # documented at https://circleci.com/docs/2.0/circleci-images/
-      # - image: circleci/postgres:9.4
+    working_directory: ~/kkumtree
 
-    working_directory: ~/repo
+jobs:
+  build:
+    executor: my-executor
 
     environment:
-      # Customize the JVM maximum heap limit
-      JVM_OPTS: -Xmx3200m
-      TERM: dumb
+      _JAVA_OPTIONS: "-Xmx3g"
+      GRADLE_OPTS: "-Dorg.gradle.daemon=false -Dorg.gradle.workers.max=2"
 
     steps:
       - checkout
 
-      # Download and cache dependencies
       - restore_cache:
           keys:
             - v1-dependencies-{{ checksum "build.gradle" }}
-            # fallback to using the latest cache if no exact match is found
-            - v1-dependencies-
 
-      - run: gradle dependencies
+      - run:
+          name: Downloading Dependencies
+          command: ./gradlew dependencies
 
       - save_cache:
           paths:
             - ~/.gradle
           key: v1-dependencies-{{ checksum "build.gradle" }}
 
-      # run tests!
-      - run: gradle test
+      - run: ./gradlew clean build
+
+      - run:
+          name: before_deploy
+          command: |
+            zip -r kkumtree-was scripts/*.sh appspec.yml build/libs/*.jar
+
+      - persist_to_workspace:
+          root: .
+          paths: .
+
+  deploy:
+    executor: my-executor
+
+    steps:
+      - attach_workspace:
+          at: .
+
+      - aws-s3/copy:
+          from: kkumtree-was.zip
+          to: 's3://kkumtree-build'
+          aws-region: AWS_DEFAULT_REGION
+
+      - aws-code-deploy/deploy-bundle:
+          application-name: kkumtree
+          deployment-group: kkumtree
+          bundle-bucket:  kkumtree-build
+          bundle-key: kkumtree-was
+          bundle-type: zip
+
+workflows:
+  version: 2.1
+
+  build-deploy:
+    jobs:
+      - build
+      - deploy:
+          requires:
+            - build
+          filters:
+            branches:
+              only: master

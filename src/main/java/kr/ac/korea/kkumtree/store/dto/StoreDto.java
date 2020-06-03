@@ -1,18 +1,10 @@
 package kr.ac.korea.kkumtree.store.dto;
 
 import kr.ac.korea.kkumtree.store.model.Store;
-import kr.ac.korea.kkumtree.store.model.StoreCategory;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import org.locationtech.jts.geom.Point;
-
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 
 @Getter
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
@@ -24,8 +16,8 @@ public class StoreDto {
     private String telNumber;
     private double latitude;
     private double longitude;
-
-
+    private String category;
+    private String categoryImgUrl;
 
     public static StoreDto of(Store store) {
         return StoreDto.builder()

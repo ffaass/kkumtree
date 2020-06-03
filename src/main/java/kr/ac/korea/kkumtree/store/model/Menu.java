@@ -23,10 +23,10 @@ public class Menu {
     @ManyToOne
     private Store store;
 
-    @Column(name = "name")
+    @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "price")
+    @Column(name = "price", nullable = false)
     private long price;
 
 

@@ -1,6 +1,7 @@
 package kr.ac.korea.kkumtree.store.service;
 
 import kr.ac.korea.kkumtree.store.dto.Location;
+import kr.ac.korea.kkumtree.store.dto.StoreDetailDto;
 import kr.ac.korea.kkumtree.store.dto.StoreDto;
 import kr.ac.korea.kkumtree.store.infrastructure.StoreRepository;
 import kr.ac.korea.kkumtree.store.model.Store;
@@ -10,6 +11,7 @@ import org.locationtech.jts.util.GeometricShapeFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 import static java.util.stream.Collectors.toList;
 
@@ -47,4 +49,5 @@ public class FindStoreService {
     private static double calculateRadius(int meters) {
         return (meters * 360) / (2 * Math.PI * EQUATORIAL_RADIUS);
     }
+
 }

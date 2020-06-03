@@ -6,22 +6,25 @@ import lombok.NoArgsConstructor;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-@NoArgsConstructor
 @Getter
+@NoArgsConstructor
 @Entity
-@Table(name = "kkumtree_store_category")
-public class StoreCategory {
+@Table(name = "kkumtree_benefit")
+public class Benefit {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private Long id;
 
-    @Column(name = "imageUrl", nullable = false, length = 1000)
-    private String imageUrl;
+    @ManyToOne
+    private Store store;
 
-    @Column
+    @Column(name = "name")
     private String name;
+
+    @Column(name = "description")
+    private String description;
 }

@@ -1,12 +1,8 @@
 package kr.ac.korea.kkumtree.store.model;
 
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 import org.locationtech.jts.geom.Point;
 
 import javax.persistence.Column;
@@ -51,11 +47,14 @@ public class Store {
     public Store(String name,
                  String address,
                  String telNumber,
+                 Double latitude, Double longitude,
                  Point location,
                  StoreCategory storeCategory) {
         this.name = name;
         this.address = address;
         this.telNumber = telNumber;
+        this.latitude = latitude;
+        this.longitude = longitude;
         this.location = location;
         this.storeCategory = storeCategory;
     }

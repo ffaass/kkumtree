@@ -22,10 +22,13 @@ public class StoreDto {
     public static StoreDto of(Store store) {
         return StoreDto.builder()
             .id(store.getId())
+            .name(store.getName())
             .address(store.getAddress())
             .latitude(store.getLocation().getCoordinate().getX())
             .longitude(store.getLocation().getCoordinate().getY())
             .telNumber(store.getTelNumber())
+            .category(store.getStoreCategory().getName())
+            .categoryImgUrl(store.getStoreCategory().getImageUrl())
             .build();
     }
 }

@@ -30,6 +30,7 @@ public class StoreDetailDto {
                                     List<Benefit> benefits) {
         return StoreDetailDto.builder()
             .id(store.getId())
+            .name(store.getName())
             .address(store.getAddress())
             .category(store.getStoreCategory().getName())
             .latitude(store.getLatitude())

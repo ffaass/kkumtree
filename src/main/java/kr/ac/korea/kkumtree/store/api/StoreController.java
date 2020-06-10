@@ -6,6 +6,7 @@ import kr.ac.korea.kkumtree.store.service.FindStoreDetailService;
 import kr.ac.korea.kkumtree.store.service.FindStoreService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -22,7 +23,8 @@ public class StoreController {
 
 
     @GetMapping("/stores/nearby")
-    public ApiResponse<StoreListResponse> findNearbyStores(Location location) {
+    public ApiResponse<StoreListResponse> findNearbyStores(Location location,
+                                                           @RequestParam("diameter") int diameter) {
         return ApiResponse.ok(new StoreListResponse(findStoreService.findNearbyStores(location)));
     }
 

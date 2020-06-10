@@ -25,7 +25,7 @@ public class StoreController {
     @GetMapping("/stores/nearby")
     public ApiResponse<StoreListResponse> findNearbyStores(Location location,
                                                            @RequestParam("diameter") int diameter) {
-        return ApiResponse.ok(new StoreListResponse(findStoreService.findNearbyStores(location)));
+        return ApiResponse.ok(new StoreListResponse(findStoreService.findNearbyStores(location, diameter)));
     }
 
     @GetMapping("/stores/{id}")

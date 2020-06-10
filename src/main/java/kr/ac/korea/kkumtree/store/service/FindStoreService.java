@@ -18,7 +18,6 @@ import static java.util.stream.Collectors.toList;
 @Service
 public class FindStoreService {
     private static final double EQUATORIAL_RADIUS = 6378137.0;
-    private static final int RADIUS_IN_METER = 2000;
 
     private final StoreRepository storeRepository;
 
@@ -26,11 +25,11 @@ public class FindStoreService {
         this.storeRepository = storeRepository;
     }
 
-    public List<StoreDto> findNearbyStores(Location location) {
+    public List<StoreDto> findNearbyStores(Location location, int diameter) {
         Geometry circle = createCircle(
             Double.parseDouble(location.getLatitude()),
             Double.parseDouble(location.getLongitude()),
-            calculateRadius(RADIUS_IN_METER));
+            calculateRadius(diameter));
         List<Store> storesWithInCircle = storeRepository.findAllWithInGeometry(circle);
         return storesWithInCircle.stream()
             .map(StoreDto::of)

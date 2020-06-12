@@ -22,6 +22,7 @@ public class StoreDetailDto {
     private Double latitude;
     private Double longitude;
     private String category;
+    private String categoryImgUrl;
     private List<MenuDto> menus;
     private List<BenefitDto> benefits;
 
@@ -36,6 +37,7 @@ public class StoreDetailDto {
             .latitude(store.getLatitude())
             .longitude(store.getLongitude())
             .telNumber(store.getTelNumber())
+            .categoryImgUrl(store.getStoreCategory().getImageUrl())
             .menus(menus.stream()
                 .map(menu -> MenuDto.builder()
                     .id(menu.getId())
